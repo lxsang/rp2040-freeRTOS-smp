@@ -15,4 +15,4 @@ pico_enable_stdio_uart(main_nortos 0)
 # create map/bin/hex/uf2 file etc.
 pico_add_extra_outputs(main_nortos)
 
-target_link_libraries(main_nortos examples LCD QMI8658 GUI Fonts Config pico_stdlib hardware_spi hardware_i2c )
+target_link_libraries(main_nortos examples)
