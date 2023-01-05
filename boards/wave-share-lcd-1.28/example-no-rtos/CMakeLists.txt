@@ -1,20 +1,9 @@
 cmake_minimum_required(VERSION 3.13)
 
-add_subdirectory(./lib/Config)
-add_subdirectory(./lib/LCD)
-add_subdirectory(./lib/Fonts)
-add_subdirectory(./lib/GUI)
-add_subdirectory(./lib/QMI8658)
 add_subdirectory(./examples)
 
 
 include_directories(./examples)
-include_directories(./lib/Config)
-include_directories(./lib/Fonts)
-include_directories(./lib/GUI)
-include_directories(./lib/LCD)
-include_directories(./lib/QMI8658)
-
 
 
 add_executable(main_nortos main.c)
