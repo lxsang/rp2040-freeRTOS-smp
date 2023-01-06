@@ -8,6 +8,17 @@
 
 #define QMI8658_UINT_MG_DPS
 
+#define BYTE_TO_BINARY_PATTERN "%c%c%c%c%c%c%c%c"
+#define BYTE_TO_BINARY(byte)  \
+  (byte & 0x80 ? '1' : '0'), \
+  (byte & 0x40 ? '1' : '0'), \
+  (byte & 0x20 ? '1' : '0'), \
+  (byte & 0x10 ? '1' : '0'), \
+  (byte & 0x08 ? '1' : '0'), \
+  (byte & 0x04 ? '1' : '0'), \
+  (byte & 0x02 ? '1' : '0'), \
+  (byte & 0x01 ? '1' : '0') 
+
 enum
 {
 	AXIS_X = 0,
@@ -562,33 +573,33 @@ unsigned char QMI8658_init(void)
 	{
 		QMI8658_printf("QMI8658_init slave=0x%x  \r\nQMI8658Register_WhoAmI=0x%x 0x%x\n", QMI8658_slave_addr, QMI8658_chip_id, QMI8658_revision_id);
 		QMI8658_write_reg(QMI8658Register_Ctrl1, 0x60);
-		QMI8658_config.inputSelection = QMI8658_CONFIG_ACCGYR_ENABLE; // QMI8658_CONFIG_ACCGYR_ENABLE;
+		QMI8658_config.inputSelection = QMI8658_CONFIG_ACCGYR_ENABLE | QMI8658_CONFIG_AEMAG_ENABLE ; // QMI8658_CONFIG_ACCGYR_ENABLE;
 		QMI8658_config.accRange = QMI8658AccRange_8g;
 		QMI8658_config.accOdr = QMI8658AccOdr_1000Hz;
 		QMI8658_config.gyrRange = QMI8658GyrRange_512dps; // QMI8658GyrRange_2048dps   QMI8658GyrRange_1024dps
 		QMI8658_config.gyrOdr = QMI8658GyrOdr_1000Hz;
 		QMI8658_config.magOdr = QMI8658MagOdr_125Hz;
 		QMI8658_config.magDev = MagDev_AKM09918;
-		QMI8658_config.aeOdr = QMI8658AeOdr_128Hz;
+		QMI8658_config.aeOdr = QMI8658AeOdr_64Hz;;//QMI8658AeOdr_128Hz;
 
 		QMI8658_Config_apply(&QMI8658_config);
 		if (1)
 		{
 			unsigned char read_data = 0x00;
 			QMI8658_read_reg(QMI8658Register_Ctrl1, &read_data, 1);
-			QMI8658_printf("QMI8658Register_Ctrl1=0x%x \n", read_data);
+			QMI8658_printf("QMI8658Register_Ctrl1=0x%x "BYTE_TO_BINARY_PATTERN"\n", read_data, BYTE_TO_BINARY(read_data));
 			QMI8658_read_reg(QMI8658Register_Ctrl2, &read_data, 1);
-			QMI8658_printf("QMI8658Register_Ctrl2=0x%x \n", read_data);
+			QMI8658_printf("QMI8658Register_Ctrl2=0x%x "BYTE_TO_BINARY_PATTERN"\n", read_data, BYTE_TO_BINARY(read_data));
 			QMI8658_read_reg(QMI8658Register_Ctrl3, &read_data, 1);
-			QMI8658_printf("QMI8658Register_Ctrl3=0x%x \n", read_data);
+			QMI8658_printf("QMI8658Register_Ctrl3=0x%x "BYTE_TO_BINARY_PATTERN"\n", read_data, BYTE_TO_BINARY(read_data));
 			QMI8658_read_reg(QMI8658Register_Ctrl4, &read_data, 1);
-			QMI8658_printf("QMI8658Register_Ctrl4=0x%x \n", read_data);
+			QMI8658_printf("QMI8658Register_Ctrl4=0x%x "BYTE_TO_BINARY_PATTERN"\n", read_data, BYTE_TO_BINARY(read_data));
 			QMI8658_read_reg(QMI8658Register_Ctrl5, &read_data, 1);
-			QMI8658_printf("QMI8658Register_Ctrl5=0x%x \n", read_data);
+			QMI8658_printf("QMI8658Register_Ctrl5=0x%x "BYTE_TO_BINARY_PATTERN"\n", read_data, BYTE_TO_BINARY(read_data));
 			QMI8658_read_reg(QMI8658Register_Ctrl6, &read_data, 1);
-			QMI8658_printf("QMI8658Register_Ctrl6=0x%x \n", read_data);
+			QMI8658_printf("QMI8658Register_Ctrl6=0x%x "BYTE_TO_BINARY_PATTERN"\n", read_data, BYTE_TO_BINARY(read_data));
 			QMI8658_read_reg(QMI8658Register_Ctrl7, &read_data, 1);
-			QMI8658_printf("QMI8658Register_Ctrl7=0x%x \n", read_data);
+			QMI8658_printf("QMI8658Register_Ctrl7=0x%x "BYTE_TO_BINARY_PATTERN"\n", read_data, BYTE_TO_BINARY(read_data));
 		}
 		//		QMI8658_set_layout(2);
 		return 1;

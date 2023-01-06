@@ -216,6 +216,8 @@ static void data_task( void *pvParameters )
         Blocked state. */
         vTaskDelayUntil( &next_wake_time, TASK_PERIOD);
         QMI8658_read_xyz(data.acc, data.gyro, &tim_count);
+        //QMI8658_read_gyro_xyz(data.gyro);
+        //QMI8658_read_acc_xyz(data.acc);
         data.adc = adc_read();
         /* Send to the queue - causing the queue receive task to unblock and
         increment its counter.  0 is used as the block time so the sending
@@ -352,6 +354,7 @@ static void init_dev( void )
 {
     /* Want to be able to printf */
     DEV_Module_Init();
+    DEV_Delay_ms(5000);
     printf("Init ADC...\n");
     adc_init();
     adc_gpio_init(29);
